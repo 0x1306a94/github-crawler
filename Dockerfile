@@ -1,0 +1,14 @@
+FROM golang:1.10-alpine
+MAINTAINER king129@vip.163.com
+
+WORKDIR  /go/src
+
+COPY ./crawler ./github-crawler/crawler
+COPY ./app ./github-crawler/app
+COPY ./vendor ./github-crawler/vendor
+
+RUN cd /go/src/github-crawler/app && \
+    go install . && \
+    which app
+
+CMD ["app"]
