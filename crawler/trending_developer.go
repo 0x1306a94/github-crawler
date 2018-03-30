@@ -12,9 +12,9 @@ type TrendingDeveloper struct {
 	Ranking		int `json:"ranking"`
 	Avatar			string `json:"avatar"`
 	Login			string `json:"login"`
-	NickName		string `json:"nick_name"`
-	RepoName		string `json:"repo_name"`
-	RepoDescription string `json:"repo_description"`
+	NickName		string `json:"nickName"`
+	RepoName		string `json:"repoName"`
+	RepoDescription string `json:"repoDescription"`
 }
 
 func (developer *TrendingDeveloper) String() string {

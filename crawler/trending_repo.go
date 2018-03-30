@@ -10,9 +10,9 @@ type TrendingRepoResult struct {
 
 type TrendingRepo struct{
 	Ranking		int `json:"ranking"`
-	FullName	string `json:"full_name"`
+	FullName	string `json:"fullName"`
 	Language	string `json:"language"`
-	Description	string `json:"description"`
+	Description	string `json:"repoDescription"`
 	Stars 		string `json:"stars"`
 	Forkers		string `json:"forkers"`
 	Gains		string `json:"gains"`
