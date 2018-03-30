@@ -5,34 +5,35 @@
     * 首先下载本仓库,如果有安装`Go` 环境,则存放 到`GOPATH/src`目录下
     * 源码运行
     
-    ```shell
-    git clone https://github.com/king129/github-crawler.git $GOPATH/src/github-crawler
-    cd $GOPATH/src/github-crawler
-    go run app/main.go
-    ```
+       ```shell
+       git clone https://github.com/king129/github-crawler.git $GOPATH/src/github-crawler
+       cd $GOPATH/src/github-crawler
+       go run app/main.go
+       ```
     
     * 可执行文件运行 (注意: 可执行文件只能在 macOS 平台运行)
     
-    ```shell
-    // 每五分钟分钟执行60次任务 任务为 每个语言的 repo/developer daily weekly monthly 的数据
-    cd xxx/github-crawler/app
-    chmod +x app
-    ./app
+       ```shell
+       // 每五分钟分钟执行60次任务 任务为 每个语言的 repo/developer daily weekly monthly 的数据
+       cd xxx/github-crawler/app
+       chmod +x app
+       ./app
+
+       cd xxx/github-crawler/server
+       chmod +x server
+       ./server
+       ```
     
-    cd xxx/github-crawler/server
-    chmod +x server
-    ./server
-    ```
+    * Docker 运行 需要安装 docker-compose 
+      
+      ```shell
+       cd xxx/github-crawler
+       // 构建镜像
+       docker-compose build
+       // 启动相关镜像 可以添加 -d 参数 后台运行
+       docker-compose up
+      ```
     
-    * Docker 运行 需要安装`docker-compose`
-    
-    ```shell
-    cd xxx/github-crawler
-    // 构建镜像
-    docker-compose build
-    // 启动相关镜像 可以添加 -d 参数 后台运行
-    docker-compose up
-    ```
     
 * 接口列表
     * `/language` 获取所有语言数据
