@@ -24,13 +24,15 @@
     ./server
     ```
     
-    * `Docker`运行
+    * `Docker`运行 需要安装`docker-componse`
 
     ```shell
     cd xxx/github-crawler
-    docker build -t github-crawler:1.0 .
-    docker run github-crawler:1.0
-    ```
+    // 构建镜像
+    docker-componse build
+    // 启动相关镜像 可以添加 -d 参数 后台运行
+    docker-componse up
+    ```
 * 接口列表
     * `/language` 获取所有语言数据
     * `/repo` 获取 `Trending Repo`数据 参数`lan` 语言,不传默认为所有语言,`since`不传默认为`daily`
