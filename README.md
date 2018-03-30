@@ -32,5 +32,9 @@
     docker run github-crawler:1.0
     ```
 
-    
+    ![](https://github.com/king129/github-crawler/blob/master/images/1.png)
+    ![](https://github.com/king129/github-crawler/blob/master/images/2.png)
+    ![](https://github.com/king129/github-crawler/blob/master/images/3.png)
+    ![](https://github.com/king129/github-crawler/blob/master/images/4.png)
+    ![](https://github.com/king129/github-crawler/blob/master/images/5.png)
 
