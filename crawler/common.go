@@ -10,18 +10,18 @@ const (
 	AllLanguage = "All Language"
 )
 
-type TaskType int
+type TaskType string
 const (
-	TaskTypeLanguage = TaskType(iota + 1)
-	TaskTypeRepo
-	TaskTypeDeveloper
+	TaskTypeLanguage 	= "language"
+	TaskTypeRepo		= "repo"
+	TaskTypeDeveloper	= "developer"
 )
 
-type ResultType int
+type ResultType string
 const (
-	ResultTypeLanguage = ResultType(iota + 1)
-	ResultTypeRepo
-	ResultTypeDeveloper
+	ResultTypeLanguage 	= "language"
+	ResultTypeRepo		= "repo"
+	ResultTypeDeveloper	= "developer"
 )
 
 const (

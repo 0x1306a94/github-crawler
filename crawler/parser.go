@@ -107,7 +107,8 @@ func parserFromRepos(language, since string) *TrendingRepoResult {
 	if len(result.Repos) == 0 {
 		return nil
 	}
-
+	result.Language = language
+	result.Since = since
 	return result
 }
 

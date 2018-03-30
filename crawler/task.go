@@ -4,6 +4,8 @@ type task interface {
 	taskType() TaskType
 	call() interface{}
 	retryCount() int
+	sinceDesc() string
+	languageDesc() string
 }
 
 
@@ -25,6 +27,14 @@ type languageTask struct {
 	retry		int
 }
 
+func (r *repoTask) sinceDesc() string {
+	return r.since
+}
+
+func (r *repoTask) languageDesc() string {
+	return r.language
+}
+
 func (_ *repoTask) taskType() TaskType {
 	return TaskTypeRepo
 }
@@ -37,6 +47,14 @@ func (r *repoTask) retryCount() int  {
 	return r.retry
 }
 
+func (d *developerTask) sinceDesc() string {
+	return d.since
+}
+
+func (d *developerTask) languageDesc() string {
+	return d.language
+}
+
 func (_ *developerTask) taskType() TaskType {
 	return TaskTypeDeveloper
 }
@@ -47,6 +65,14 @@ func (r *developerTask) call() (interface{}) {
 
 func (r *developerTask) retryCount() int  {
 	return r.retry
+}
+
+func (_ *languageTask) sinceDesc() string {
+	return ""
+}
+
+func (_ *languageTask) languageDesc() string {
+	return ""
 }
 
 func (_ *languageTask) taskType() TaskType {

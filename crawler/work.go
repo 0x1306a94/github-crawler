@@ -5,13 +5,13 @@ import "fmt"
 type work struct {
 	id 			int
 	jobQueue	chan task
-	resultQueue chan interface{}
+	resultQueue chan WorkResult
 }
 
 func NewWork() *work {
 	return &work{
 		jobQueue: make(chan task, 50),
-		resultQueue: make(chan interface{}, 100),
+		resultQueue: make(chan WorkResult, 100),
 	}
 }
 
@@ -20,13 +20,17 @@ func (w *work) start()  {
 	for task := range w.jobQueue {
 		retryCount := task.retryCount()
 		des := ""
+		var resultType ResultType
 		switch task.taskType() {
 		case TaskTypeLanguage:
 			des = "fetch language"
+			resultType = ResultTypeLanguage
 		case TaskTypeRepo:
 			des = "fetch repo"
+			resultType = ResultTypeRepo
 		default:
 			des = "fetch developer"
+			resultType = ResultTypeDeveloper
 		}
 
 		if retryCount <= 0 {
@@ -50,7 +54,13 @@ func (w *work) start()  {
 				break
 			}
 		}
-		w.resultQueue <- result
+		r := WorkResult{
+			ResultType: resultType,
+			Since: task.sinceDesc(),
+			Language: task.languageDesc(),
+			Result: result,
+		}
+		w.resultQueue <- r
 	}
 	fmt.Printf("work id: %d stop\n",w.id)
 }

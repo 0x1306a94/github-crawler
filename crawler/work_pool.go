@@ -4,19 +4,13 @@ import "math/rand"
 
 type workPool struct {
 	pool 		[]*work
-	resultQueue chan WorkPoolResult
+	resultQueue chan WorkResult
 }
-
-type WorkPoolResult struct {
-	ResultType		ResultType
-	Result 			interface{}
-}
-
 
 func newWorkPool(poolSize int) *workPool {
 	p := &workPool{
 		pool: make([]*work, 0),
-		resultQueue: make(chan WorkPoolResult, 100),
+		resultQueue: make(chan WorkResult, 100),
 	}
 	for i := 0; i < poolSize; i++ {
 		w := NewWork()
@@ -41,21 +35,7 @@ func (p *workPool) run() *workPool {
 		go w.start()
 		go func(wp *workPool, w *work) {
 			for result := range w.resultQueue {
-				resultType := ResultTypeLanguage
-				switch result.(type) {
-				case []string:
-					resultType = ResultTypeLanguage
-				case *TrendingRepoResult:
-					resultType = ResultTypeRepo
-				default:
-					resultType = ResultTypeDeveloper
-				}
-
-				wpr := WorkPoolResult{
-					ResultType: resultType,
-					Result: result,
-				}
-				p.resultQueue <- wpr
+				p.resultQueue <- result
 			}
 		}(p, w)
 	}

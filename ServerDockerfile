@@ -1,0 +1,15 @@
+FROM golang:1.10-alpine
+MAINTAINER king129@vip.163.com
+
+WORKDIR  /go/src
+
+COPY ./crawler ./github-crawler/crawler
+COPY ./database ./github-crawler/database
+COPY ./server ./github-crawler/server
+COPY ./vendor ./github-crawler/vendor
+
+RUN cd /go/src/github-crawler/server && \
+    go install . && \
+    which server
+
+CMD ["server"]

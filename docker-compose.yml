@@ -1,0 +1,33 @@
+version: '3.0'
+
+services:
+    github-trendig-crawler:
+        build:
+            context: ./
+            dockerfile: AppDockerfile
+        container_name: github-trendig-crawler
+        restart: "always"
+        environment:
+            RedisHost: "redis:6379"
+        depends_on:
+            - redis
+
+    github-trendig-server:
+        build:
+            context: ./
+            dockerfile: ServerDockerfile
+        container_name: github-trendig-server
+        restart: "always"
+        environment:
+            RedisHost: "redis:6379"
+        depends_on:
+            - redis
+        ports:
+            - "8080:8080"
+
+    redis:
+        image: "redis:alpine"
+        container_name: github-trendig-redis
+        restart: "always"
+        ports:
+            - "6379:6379"

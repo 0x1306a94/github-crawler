@@ -3,20 +3,22 @@ package crawler
 import (
 	"errors"
 	"time"
+	"fmt"
 )
 
 type Crawler struct {
 	languages 	[]string
 	pool 		*workPool
-	task 		[]task
 	ticker  	*time.Ticker
 }
 
-func NewCrawler() *Crawler {
-	return &Crawler{}
+func NewCrawler(languages []string) *Crawler {
+	return &Crawler{
+		languages: languages,
+	}
 }
 
-func (c *Crawler) Result() <-chan WorkPoolResult {
+func (c *Crawler) Result() <-chan WorkResult {
 	if c.pool == nil {
 		return nil
 	}
@@ -28,48 +30,47 @@ func (c *Crawler) AllLanguages() []string  {
 }
 
 func (c *Crawler) Start() (error) {
-	languages, err := c.fetchLanguage()
-	if err != nil {
-		return err
-	}
-	c.languages = []string{AllLanguage}
-	c.languages = append(c.languages, languages...)
-	c.pool = newWorkPool(10)
-	c.task = make([]task, 0)
-
-	for _, since := range []string{SinceToDay, SinceWeek, SinceMonth} {
-		for _, lan := range languages {
-			reposT := &repoTask{}
-			reposT.language = lan
-			reposT.since = since
-			reposT.retry = 3
-
-
-			developerT := &developerTask{}
-			developerT.language = lan
-			developerT.since = since
-			developerT.retry = 3
-
-			c.task = append(c.task, reposT, developerT)
+	if c.languages == nil || len(c.languages) == 0 {
+		languages, err := c.fetchLanguage()
+		if err != nil {
+			return err
 		}
+		c.languages = languages
+		c.languages = []string{AllLanguage}
+		c.languages = append(c.languages, languages...)
 	}
 
+	c.pool = newWorkPool(10)
+	fmt.Println("start crawler ....")
 	c.ticker = time.NewTicker(time.Minute * 5)
 	go c.pool.run()
 	go func(crawler *Crawler) {
 		startOffset := 0
 		sectionSize := 10
 		for range crawler.ticker.C {
-			var tasks []task = nil
-			if startOffset + sectionSize >= len(c.task) {
-				tasks = crawler.task[startOffset:]
+			chunckLans := make([]string, 0)
+			if startOffset + sectionSize >= len(crawler.languages) {
+				chunckLans = crawler.languages[startOffset:]
 				startOffset = 0
 			} else {
-				tasks = crawler.task[startOffset:(startOffset + sectionSize)]
+				chunckLans = crawler.languages[startOffset:(startOffset + sectionSize)]
 				startOffset = startOffset + sectionSize
 			}
-			for _, t := range tasks {
-				crawler.pool.addTask(t)
+			for _, lan := range chunckLans {
+				for _, since := range []string{SinceToDay, SinceWeek, SinceMonth} {
+					reposT := &repoTask{}
+					reposT.language = lan
+					reposT.since = since
+					reposT.retry = 3
+
+					developerT := &developerTask{}
+					developerT.language = lan
+					developerT.since = since
+					developerT.retry = 3
+
+					crawler.pool.addTask(reposT)
+					crawler.pool.addTask(developerT)
+				}
 			}
 		}
 
@@ -96,7 +97,7 @@ func (c *Crawler) fetchLanguage() ([]string, error) {
 
 	var result []string = nil
 	for r := range w.resultQueue {
-		if v, ok := r.([]string); ok {
+		if v, ok := r.Result.([]string); ok {
 			result = v
 		}
 		go func(w *work) {
