@@ -31,7 +31,13 @@
     docker build -t github-crawler:1.0 .
     docker run github-crawler:1.0
     ```
-
+* 接口列表
+    * `/language` 获取所有语言数据
+    * `/repo` 获取 `Trending Repo`数据 参数`lan` 语言,不传默认为所有语言,`since`不传默认为`daily`
+    * `/repo` 获取 `Trending Developer`数据 参数`lan` 语言,不传默认为所有语言,`since`不传默认为`daily`
+    * `lan`参数值需要将语言`/language`接口返回语言将空格替换为`-`,并转为小写
+    * `since` 参数值有`daily`, `weekly`, `monthly`
+    
     ![](https://github.com/king129/github-crawler/blob/master/images/1.png)
     ![](https://github.com/king129/github-crawler/blob/master/images/2.png)
     ![](https://github.com/king129/github-crawler/blob/master/images/3.png)
