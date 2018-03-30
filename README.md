@@ -24,15 +24,15 @@
     ./server
     ```
     
-    * `Docker`运行 需要安装`docker-componse`
-
+    * Docker 运行 需要安装`docker-compose`
+    
     ```shell
     cd xxx/github-crawler
     // 构建镜像
-    docker-componse build
+    docker-compose build
     // 启动相关镜像 可以添加 -d 参数 后台运行
-    docker-componse up
-    ```
+    docker-compose up
+    ```
     
 * 接口列表
     * `/language` 获取所有语言数据
