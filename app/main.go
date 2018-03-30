@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 	"os"
+	"math/rand"
 )
 
 var redisClient *database.Redis
@@ -58,8 +59,9 @@ func SaveRedis(result crawler.WorkResult)  {
 	if len(data) == 0 {
 		return
 	}
-
-	err = redisClient.Save(key, string(data), time.Hour * 1)
+	expiration := time.Hour * 2
+	random := rand.Intn(3600)
+	err = redisClient.Save(key, string(data), expiration + time.Duration(random))
 	if err == nil {
 		fmt.Printf("%v save to redis success\n", key)
 	} else {

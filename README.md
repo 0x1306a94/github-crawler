@@ -1,6 +1,6 @@
 # github-crawler 
 
-* 爬取`Github` `Trending`数据,数据存储到`Redis`,在运行之前,请先设置 环境变量 `RedisHost` `RedisPassword`,如果不进行设置,则默认连接到 `127.0.0.1:6379`,`Redis`数据过期时间为1小时
+* 爬取`Github` `Trending`数据,数据存储到`Redis`,在运行之前,请先设置 环境变量 `RedisHost` `RedisPassword`,如果不进行设置,则默认连接到 `127.0.0.1:6379`,`Redis`数据过期时间为2小时的基础上在加1小时的随机数,避免同一时刻大部分数据缓存过期
 - 如何运行
     * 首先下载本仓库,如果有安装`Go` 环境,则存放 到`GOPATH/src`目录下
     * 源码运行
